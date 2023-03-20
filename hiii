@@ -330,6 +330,6 @@ num_items = random.randint(1, 7)
 selected_items = choose_items(items, num_items, min_value, max_value)
 
 # Print the selected items
-print(f"Selected {len(selected_items)} items that add up to between ${min_value} and ${max_value}:")
+(f"Selected {len(selected_items)} items that add up to between ${min_value} and ${max_value}:")
 for name, price in selected_items:
     print(f"{name}: ${price}")
