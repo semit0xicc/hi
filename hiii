@@ -1,0 +1,335 @@
+import random
+
+def choose_mode():
+    """
+    Randomly chooses a mode for the game: "1 v 1", "1 v 1 v 1, "1 v 1 v 1 v 1", or "2 v 2".
+    """
+    modes = ["1 v 1 v 1 v 1 Regular", "1 v 1 v 1 v 1 Crazy Mode", "1 v 1 Regular", "1 v 1 Crazy Mode", "1 v 1 v 1 Regular", "1 v 1 v 1 Crazy Mode", "2 v 2 Regular", "2 v 2 Crazy Mode"]
+    return random.choices(modes, weights=[1, 1, 9, 9, 9, 9, 26, 26])[0]
+
+def choose_items(items, min_value, max_value):
+    """
+    Randomly chooses a random number of items from a list of items, with or without duplicates, that have values
+    between a given minimum and maximum.
+
+    Args:
+    - items: a list of tuples containing item names and values
+    - min_value: the minimum value of items that can be chosen
+    - max_value: the maximum value of items that can be chosen
+
+    Returns:
+    - a list of the chosen items
+    """
+    chosen_items = []
+    chosen_value = 0
+    while chosen_value < min_value and len(chosen_items) < 5:
+        item = random.choice(items)
+        if chosen_value + item[1] <= max_value:
+            chosen_items.append(item)
+            chosen_value += item[1]
+    while chosen_value < max_value and len(chosen_items) < 5:
+        valid_items = [i for i in items if i not in chosen_items and i[1] <= max_value - chosen_value]
+        if not valid_items:
+            break
+        item = random.choice(valid_items)
+        chosen_items.append(item)
+        chosen_value += item[1]
+    return chosen_items
+
+    
+items = [
+    ("Tech Starter Pack", 4.75),
+    ("Hot on a Budget", 5.04),
+    ("10% Designer", 5.47),
+    ("Trick or Treat", 5.62),
+    ("Race to the Top", 6.32),
+    ("Click", 6.92),
+    ("Knockout", 7.67),
+    ("Wardrobe Classic", 8.24),
+    ("Fancy Gaming", 8.67),
+    ("Collectors Dream", 9.09),
+    ("Take A Flight", 9.64),
+    ("Lucky Off", 9.67),
+    ("Forgotten Vault", 10.42),
+    ("Kanye Farewell", 11.16),
+    ("Rare Candy", 11.35),
+    ("Game Mania", 12),
+    ("Supreme or Not", 12),
+    ("Garage Sale", 12),
+    ("Got Em", 15),
+    ("Budget Hype", 15),
+    ("Evil Pumpkin", 16),
+    ("Sticker or Cent", 16.5),
+    ("Golden Egg", 17),
+    ("Game of Battle", 17),
+    ("Love Yourself", 17),
+    ("Play Has No Limit", 19),
+    ("Gamers Den", 19),
+    ("Sheeeeesh", 19.5),
+    ("Carry On", 19.75),
+    ("Nightmare", 20),
+    ("Can You Hear Me", 20),
+    ("Snowball", 20),
+    ("Battle it out (max 50)", 22),
+    ("Marvel", 22),
+    ("Hype Beast", 24),
+    ("Dubai Memories", 25.5),
+    ("Harry Potter", 26),
+    ("Hit or Miss", 26),
+    ("Become an Influencer", 26.5),
+    ("Dark Knight (Max $60)", 26.5),
+    ("Hunter", 26.75),
+    ("Crypro Mining", 28.5),
+    ("10% Watch", 29),
+    ("Battle for Jordans", 29.50),
+    ("Bogo Madness", 30.5),
+    ("Corsair", 30.75),
+    ("Sony", 31.50),
+    ("Control", 31.75),
+    ("fun Treats", 31),
+    ("RGB Setup", 33),
+    ("Illusion", 33),
+    ("10% Apple", 35),
+    ("Streamer Essentials", 35.25),
+    ("Nintendo", 36),
+    ("Comfort Zone", 36),
+    ("Car Collectibles", 36.5),
+    ("Kaws", 37),
+    ("Riot", 37.25),
+    ("Christmas Spirit", 37.25),
+    ("Click and Listen", 41),
+    ("Travis Scott", 41),
+    ("Chic Streetware", 41),
+    ("Mismatched", 42),
+    ("Nike", 42),
+    ("Gadget Geek", 42.50),
+    ("PS5 VS Xbox", 42.50),
+    ("Logitech", 44.25),
+    ("Lego Builder", 46),
+    ("Nordic Supreme", 44),
+    ("Yeezy Day", 45.50),
+    ("Cold Hearts", 44.50),
+    ("Xbox", 45.50),
+    ("Razer Chaser", 46),
+    ("Orange Peel", 46),
+    ("10 designer", 48),
+    ("Star Wars", 48.5),
+    ("Quest or Rest", 49.5),
+    ("Stonks", 49.75),
+    ("Achromatic", 50),
+    ("Snkrs Day", 50),
+    ("Sneaker Investment", 50.50),
+    ("Hype 50-50", 50.75),
+    ("Steam Deck", 51),
+    ("Winter Warmer", 51.75),
+    ("Funko", 50),
+    ("Suprememe", 52.75),
+    ("karts & furious", 53),
+    ("Air Force 1", 53.75),
+    ("Hyped Mix", 54.75),
+    ("Budget WGTV", 55),
+    ("Supreme fw21", 53),
+    ("The Collector", 55.50),
+    ("Matchpoint", 57),
+    ("Collectibles 50-50", 59),
+    ("Tooltip", 57.75),
+    ("Puppeteer", 58.50),
+    ("Mining Beginner", 58.50),
+    ("Corsair Treasure Chest", 58.75),
+    ("Santas Bag", 59),
+    ("Fruity", 59),
+    ("Games Room", 59.25),
+    ("Pokemon Galore", 61.25),
+    ("Pack Your Bag", 61.50),
+    ("Only Apple", 62.75),
+    ("Land of Dreams", 63),
+    ("Mocha", 66.75),
+    ("Supreme SS21", 67),
+    ("Audio", 67),
+    ("Supreme VS Offwhite", 69),
+    ("Check", 69),
+    ("Retro 21", 71.25),
+    ("half a jordan", 73),
+    ("drip", 75),
+    ("PC Master Race", 78),
+    ("Best of 2022", 78.75),
+    ("Sunny Days", 78.75),
+    ("Nike Collabs", 80.50),
+    ("Blinded", 81.50),
+    ("Enchanted Walk", 81.75),
+    ("NBA", 84),
+    ("Outdoor activities", 92),
+    ("Skatepark", 90.50),
+    ("Antidote", 90.75),
+    ("Angels", 91),
+    ("triple V", 92),
+    ("Ugg Guard", 96.50),
+    ("Hype Decor", 99),
+    ("50% 550", 99),
+    ("Off white VS LV", 102),
+    ("Showpiece", 102),
+    ("Frosty Flakes", 103),
+    ("50-50 On Green", 103),
+    ("The 1%", 103.5),
+    ("UFC", 107),
+    ("Lightning", 107.5),
+    ("BAE shoes", 108),
+    ("Jordan I-IV-VI-XI", 108.5),
+    ("Biba", 110),
+    ("Juicy", 111),
+    ("Street Art", 113),
+    ("Trip To Astroworld", 108),
+    ("Lars", 114),
+    ("Incantations", 115),
+    ("Time is money 32%", 117),
+    ("Toy Room", 118),
+    ("Hot Girl Summer", 126.5),
+    ("Jordan 21-22", 131),
+    ("Bespoke", 131.5),
+    ("No voucher", 132.5),
+    ("350 To 700", 133),
+    ("Half a dunk", 134),
+    ("Summer Tees", 134.5),
+    ("Fire and Ice", 136),
+    ("Island", 138),
+    ("Bape", 140),
+    ("Burberry X Supreme", 142),
+    ("Jordan 20-21", 143),
+    ("Gamification", 145),
+    ("Dunk or Yeezy", 145),
+    ("Off Jordan", 145),
+    ("Wavy", 148.5),
+    ("Hustlers", 150),
+    ("Walk in the Park", 151),
+    ("All White", 151),
+    ("The Investor", 155),
+    ("80% OG Streetwear", 156),
+    ("Gucci", 161),
+    ("Kazlic", 174),
+    ("Jordan IV", 180),
+    ("Stone Island", 181),
+    ("70% Sneaker", 182),
+    ("Silver Hunter", 183),
+    ("Air Max Day", 192),
+    ("Fresh Drop", 192),
+    ("Floral", 198),
+    ("Leaves Fall", 204),
+    ("Yeezy is King", 208),
+    ("Witch Cauldron 25%", 224),
+    ("Monochrome Style", 229),
+    ("Off-White X Nike", 235),
+    ("Samsung VS Apple", 237),
+    ("All Black", 241),
+    ("Best of 2021", 241),
+    ("Prospector", 249),
+    ("Grey Vibes", 260),
+    ("10% Art", 263),
+    ("25% Omega", 267),
+    ("Burberry", 268),
+    ("Air Jordans", 269),
+    ("Hype Starter Pack", 280),
+    ("Legacy Streetwear", 279),
+    ("Sneakerhead Grail", 284),
+    ("Matching", 285),
+    ("Collectibles", 292),
+    ("Deadly Style", 295),
+    ("Jordans or Yeezys (decent for a boost)", 300),
+    ("Build a Collection", 301),
+    ("Taste The Rainbow", 305),
+    ("Pattern Chaser", 310),
+    ("Mans or Not", 320),
+    ("Instagram Starter Pack", 320),
+    ("Saint Lucia Retreat", 327),
+    ("Big Apple", 335),
+    ("50-50 All Black", 340),
+    ("Perfect Date", 356),
+    ("Bearbrick", 376.5),
+    ("Prodigy", 377),
+    ("North Carolina", 384),
+    ("Gucci LV", 400),
+    ("Rich GVNG", 404),
+    ("In The Middle", 414),
+    ("BMW", 441),
+    ("Safe House", 445.5),
+    ("White Gold", 447),
+    ("Outfit-Checklist", 462),
+    ("Show Off", 462),
+    ("Hangman", 472),
+    ("Low VS High", 473.5),
+    ("WatchgamesTV", 478),
+    ("San Chicago", 484),
+    ("Dice", 509.5),
+    ("Dubai", 535),
+    ("Abloh Mentality", 536.5),
+    ("Supreme LV", 564),
+    ("Tiffany", 570),
+    ("French Designer", 611),
+    ("Audi", 615),
+    ("Rich Influencer", 637),
+    ("Designer Collabs", 652.5),
+    ("Mac or Not", 753),
+    ("Tide Turner", 759),
+    ("Lambo", 783),
+    ("Mothers Day", 784),
+    ("Rose Gold", 785),
+    ("Hypertension", 805),
+    ("Final Investment", 839),
+    ("Aston Martin", 877),
+    ("Blackout", 954),
+    ("Dogecoin Investor", 961.5),
+    ("Iced Out", 1008),
+    ("Dior", 1090),
+    ("Red Redemption", 1103),
+    ("High Hopes", 1138),
+    ("Midas Touch", 1344),
+    ("Gentleman", 1369),
+    ("50%", 1376),
+    ("Kaz V2", 1424),
+    ("Golden Boy", 1436),
+    ("Locker", 1538),
+    ("Backdoor SZN", 1658),
+    ("Millionaire", 1880),
+    ("Dubai Style", 2045),
+    ("Tudor", 2110),
+    ("Market Maker", 2287),
+    ("Silver VS Gold", 2335),
+    ("Darling", 2382),
+    ("Shelby", 2620)
+    ]
+
+# Define the minimum and maximum values for the selected items
+min_value = 250
+max_value = 600
+
+# Define the choose_items function
+def choose_items(items, num_items, min_value, max_value):
+    selected_items = []
+    while True:
+        # Shuffle the items and select the first num_items that add up to between min_value and max_value
+        random.shuffle(items)
+        selected_items = []
+        total_price = 0
+        for name, price in items:
+            if total_price + price <= max_value:
+                selected_items.append((name, price))
+                total_price += price
+            if len(selected_items) == num_items:
+                break
+        if total_price >= min_value and len(selected_items) == num_items:
+            break
+    return selected_items
+
+# Choose the game mode
+mode = choose_mode()
+print(f"Chosen Game Mode: {mode}")
+
+# Choose a random number of items between 1 and 7
+num_items = random.randint(1, 7)
+
+# Choose items that add up to between min_value and max_value
+selected_items = choose_items(items, num_items, min_value, max_value)
+
+# Print the selected items
+print(f"Selected {len(selected_items)} items that add up to between ${min_value} and ${max_value}:")
+for name, price in selected_items:
+    print(f"{name}: ${price}")
